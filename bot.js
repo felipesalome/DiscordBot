@@ -19,11 +19,13 @@ client.on("guildCreate", guild => {
     client.user.setActivity(`Estou em ${client.guilds.size} servidores.`);
 });
 
+// Assim que sair de um servidor vai mencionar no prompt e atualizar o status do bot
 client.on("guildDelete", guild => {
     console.log(`O bot foi removido do servidor: ${guild.name} (id: ${guild.id})`);
     client.user.setActivity(`Serving ${client.guilds.size} servers`);
 });
 
+// Sempre que entrar um membro no servidor, vai enviar uma mensagem de boas vindas e como usar os comandos
 client.on("guildMemberAdd", member => {
     const channel = member.guild.channels.find(ch => ch.name === 'recrutamento');
     const embed = new Discord.RichEmbed()
@@ -36,6 +38,7 @@ client.on("guildMemberAdd", member => {
     channel.send(embed);
 });
 
+// Aqui começa os comandos do bot
 client.on("message", async message => {
     if(message.author.bot) return;
     if(message.channel.type === "dm") return;
@@ -43,6 +46,7 @@ client.on("message", async message => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
 
+    // Comando para fazer o registro dos membros com cargo "membro" no servidor
     if(comando === "registrar"){
         const embed = new Discord.RichEmbed()
             .setTitle('Registro')
@@ -63,6 +67,7 @@ client.on("message", async message => {
         m.edit(embed);
     }
 
+    // Comando para fazer o registro dos membros com cargo "convidado" no servidor
     if(comando === "convidado"){
         const embed = new Discord.RichEmbed()
             .setTitle('Registro')
@@ -77,4 +82,5 @@ client.on("message", async message => {
     }
 })
 
+// Inicia o bot no servidor com o token que foi informado no config.json
 client.login(config.token);
