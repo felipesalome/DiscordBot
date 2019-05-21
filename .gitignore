@@ -1,2 +1,3 @@
+# ignorar esses arquivos
 node_modules/
 config.json
