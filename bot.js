@@ -32,9 +32,10 @@ client.on("guildMemberAdd", member => {
         .setColor(0x0F0FF0)
         .setDescription(`:wave: Bem vindo(a) ${member} :wave:`)
         .addBlankField()
-        .addField(' Membro da guid :punch: ', ' No canal ` #registro ` digite: ``` !registrar SeuNickNoJogo ```')
+        .addField(' Membro da guild :punch: ', ' No canal ` #registro ` digite: ``` !registrar SeuNickNoJogo ```')
         .addField(' Convidado :handshake: ', ' No canal ` #registro ` digite: ``` !convidado ```');
     if (!channel) return;
+    channel.send(`${member} vá ao canal #registro para se registrar.`);
     channel.send(embed);
 });
 
