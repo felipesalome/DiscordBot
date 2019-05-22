@@ -74,6 +74,8 @@ client.on('raw', async dados => {
     }
 });
 
+client.on('raw', console.log)
+
 // Aqui começa os comandos do bot
 client.on("message", async message => {
     if (message.author.bot) return
