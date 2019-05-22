@@ -38,22 +38,70 @@ client.on("guildMemberAdd", member => {
     channel.send(embed);
 });
 
+// Adiciona ou remove cargo de acordo com a reação na mensagem
+client.on('raw', async dados => {
+    if (dados.t !== "MESSAGE_REACTION_ADD" && dados.t !== "MESSAGE_REACTION_REMOVE") return
+    if (dados.d.message_id != "580612051907641354") return
+
+    let servidor = client.guilds.get("580482165792309269");
+    let membro = servidor.members.get(dados.d.user_id);
+
+    let cargodps = servidor.roles.get('580553821235970100'),
+        cargotanker = servidor.roles.get('580553392833953817'),
+        cargohealer = servidor.roles.get('580553760078561303'),
+        cargomulti = servidor.roles.get('580555110489260062');
+
+    if (dados.t === "MESSAGE_REACTION_ADD"){
+        if (dados.d.emoji.name === "⚔"){
+            if (membro.roles.has(cargodps)) return
+            membro.addRole(cargodps);
+        } else if (dados.d.emoji.name === "🛡"){
+            if (membro.roles.has(cargotanker)) return
+            membro.addRole(cargotanker);
+        } else if (dados.d.emoji.name === "🙌"){
+            if (membro.roles.has(cargohealer)) return
+            membro.addRole(cargohealer);
+        }
+        if (membro.roles.has(cargodps) && membro.roles.has(cargotanker) && membro.roles.has(cargohealer)) {
+            if (membro.roles.has(cargomulti)) return
+            membro.addRole(cargomulti);
+        }
+    }
+
+    if (dados.t === "MESSAGE_REACTION_REMOVE"){
+        if (dados.d.emoji.name === "⚔") {
+            if (membro.roles.has(cargodps)) return
+            membro.removeRole(cargodps);
+        } else if (dados.d.emoji.name === "🛡"){
+            if (membro.roles.has(cargotanker)) return
+            membro.removeRole(cargotanker);
+        } else if (dados.d.emoji.name === "🙌"){
+            if (membro.roles.has(cargohealer)) return
+            membro.removeRole(cargohealer);
+        }
+        if (membro.roles.has(cargodps) && membro.roles.has(cargotanker) && membro.roles.has(cargohealer)){
+            if (membro.roles.has(cargomulti)) return
+            membro.removeRole(cargomulti);
+        }
+    }
+});
+
 // Aqui começa os comandos do bot
 client.on("message", async message => {
-    if(message.author.bot) return;
-    if(message.channel.type === "dm") return;
+    if (message.author.bot) return;
+    if (message.channel.type === "dm") return;
 
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const comando = args.shift().toLowerCase();
 
     // Comando para fazer o registro dos membros com cargo "membro" no servidor
-    if(comando === "registrar"){
+    if (comando === "registrar"){
         const embed = new Discord.RichEmbed()
             .setTitle('Registro')
             .setColor(0xFF0000)
             .setDescription('Registrando.');
         const m = await message.channel.send(embed);
-        if(args[0] !== "" && args[0] !== null && args[0] !== undefined){
+        if (args[0] !== "" && args[0] !== null && args[0] !== undefined){
             let role = message.guild.roles.find(r => r.name === "Membro");
             message.member.addRole(role).catch(e => console.log(e));
             message.member.setNickname(`[ED]${args[0]}`).catch(e => console.log(e));
@@ -68,7 +116,7 @@ client.on("message", async message => {
     }
 
     // Comando para fazer o registro dos membros com cargo "convidado" no servidor
-    if(comando === "convidado"){
+    if (comando === "convidado"){
         const embed = new Discord.RichEmbed()
             .setTitle('Registro')
             .setColor(0xFF0000)
@@ -82,7 +130,7 @@ client.on("message", async message => {
     }
 
     // Comando para mostrar as funções
-    if(comando === "funcao"){
+    if (comando === "funcao"){
         const embed = new Discord.RichEmbed()
             .setColor(0xFF471A)
             .setDescription('\n __*** Reaja de acordo com a sua função: ***__ \n\n\n **HEALER** - :raised_hands:\n\n **TANKER** - :shield:\n\n **DPS**   - :crossed_swords:\n')
