@@ -80,6 +80,19 @@ client.on("message", async message => {
         embed.setColor(0x00FF00);
         m.edit(embed);
     }
+
+    // Comando para mostrar as funções
+    if(comando === "funcao"){
+        const embed = new Discord.RichEmbed()
+            .setColor(0xFF471A)
+            .setDescription('\n __*** Reaja de acordo com a sua função: ***__ \n\n\n **HEALER** - :raised_hands:\n\n **TANKER** - :shield:\n\n **DPS**   - :crossed_swords:\n')
+            .setTimestamp()
+            .setFooter('Escolha sua função clicando nas reações abaixo.');
+        const m = await message.channel.send(embed);
+        m.react('🙌');
+        m.react('🛡');
+        m.react('⚔');
+    }
 })
 
 // Inicia o bot no servidor com o token que foi informado no config.json
