@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
 const config = require("./config.json")
-const moment = require('moment')
 
 // Quando o Bot estiver utilizavel ira avisar no prompt e vai atualizar o status do bot
 client.on("ready", () => {
@@ -23,14 +22,6 @@ client.on("guildDelete", guild => {
 
 // Sempre que entrar um membro no servidor, vai enviar uma mensagem de boas vindas e como usar os comandos
 client.on("guildMemberAdd", member => {
-    // Verificações anti-selfbot de divulgação
-    const diasCriado = moment().diff(moment(member.user.createdAt), 'dias')
-    const avatarPadrao = member.user.displayAvatarURL.startsWith('http://discordapp.com/')
-    const contador = member.user.username.match(/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/)
-    if (contador > 0 && (avatarPadrao || diasCriado < 3)) return (() => {
-        member.send('Olá! você foi kickado automaticamente por suspeita de divulgação em nosso servidor. Contas com menos de 3 dias no discord não podem ter domínios (exemplo twitter.com)').catch();
-        member.kick('Autokick: Selfbots não são bem vindos').catch()
-    })()
     const channel = member.guild.channels.find(ch => ch.name === 'recrutamento')
     const embed = new Discord.RichEmbed()
         .setColor(0x0F0FF0)
