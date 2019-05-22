@@ -55,16 +55,24 @@ client.on('raw', async dados => {
         if (dados.d.emoji.name === "⚔"){
             if (membro.roles.has(cargodps)) return
             membro.addRole(cargodps);
+            if (membro.roles.has(cargotanker) && membro.roles.has(cargohealer)){
+                if (membro.roles.has(cargomulti)) return
+                membro.addRole(cargomulti);
+            }
         } else if (dados.d.emoji.name === "🛡"){
             if (membro.roles.has(cargotanker)) return
             membro.addRole(cargotanker);
+            if (membro.roles.has(cargodps) && membro.roles.has(cargohealer)) {
+                if (membro.roles.has(cargomulti)) return
+                membro.addRole(cargomulti);
+            }
         } else if (dados.d.emoji.name === "🙌"){
             if (membro.roles.has(cargohealer)) return
             membro.addRole(cargohealer);
-        }
-        if (membro.roles.has(cargodps) && membro.roles.has(cargotanker) && membro.roles.has(cargohealer)) {
-            if (membro.roles.has(cargomulti)) return
-            membro.addRole(cargomulti);
+            if (membro.roles.has(cargotanker) && membro.roles.has(cargodps)) {
+                if (membro.roles.has(cargomulti)) return
+                membro.addRole(cargomulti);
+            }
         }
     }
 
@@ -72,16 +80,21 @@ client.on('raw', async dados => {
         if (dados.d.emoji.name === "⚔") {
             if (membro.roles.has(cargodps)) return
             membro.removeRole(cargodps);
+            if (membro.roles.has(cargomulti)) {
+                membro.removeRole(cargomulti);
+            }
         } else if (dados.d.emoji.name === "🛡"){
             if (membro.roles.has(cargotanker)) return
             membro.removeRole(cargotanker);
+            if (membro.roles.has(cargomulti)) {
+                membro.removeRole(cargomulti);
+            }
         } else if (dados.d.emoji.name === "🙌"){
             if (membro.roles.has(cargohealer)) return
             membro.removeRole(cargohealer);
-        }
-        if (membro.roles.has(cargodps) && membro.roles.has(cargotanker) && membro.roles.has(cargohealer)){
-            if (membro.roles.has(cargomulti)) return
-            membro.removeRole(cargomulti);
+            if (membro.roles.has(cargomulti)) {
+                membro.removeRole(cargomulti);
+            }
         }
     }
 });
