@@ -1,5 +1,4 @@
 # ignorar esses arquivos
-node_modules/
 config.json
 .vscode/*
 !.vscode/settings.json
